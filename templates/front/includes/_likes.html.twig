@@ -1,0 +1,36 @@
+<div class="d-flex justify-content-between align-items-center">
+    <div class="btn-group">
+
+        <i class="fa fa-thumbs-up">
+            <small class="text-muted number-of-likes-{{ video.id }}">({{ video.usersThatLike.count }})</small>
+        </i>&nbsp;
+        <i class="fa fa-thumbs-down">
+            <small class="text-muted number-of-dislikes-{{ video.id }}">({{ video.usersThatDontLike.count }})</small>
+        </i>
+
+
+        <button data-toggle="tooltip" data-placement="top"
+                onclick=" likeOrUnlike('{{ path('like_unlike', {'video': video.id}) }}', 'like')"
+                title="You like the video. Click to unlike"
+                class="btn btn-primary btn-outline-success btn-sm mr-2 ml-1 likeUnLike ">
+            <i class="fa fa-thumbs-up"></i>
+        </button>
+
+
+        <button data-toggle="tooltip" data-placement="top"
+                onclick=" likeOrUnlike ('{{ path('like_unlike', {'video': video.id}) }}', 'dislike')"
+                title="You don't like the video. Click to undo"
+                class="btn btn-primary btn-outline-danger btn-sm mr-2 ml-1 likeUnLike">
+            <i class="fa fa-thumbs-down"></i>
+        </button>
+
+
+        <!-- <button data-toggle="tooltip" data-placement="top" title="You don't like the video. Click to undo" type="button" class="btn btn-primary btn-outline-danger btn-sm mr-2">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="fa fa-thumbs-down"></i>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </button> -->
+        <a href="{{ path('video_detail', {video: video.id}) }}#video_comments">Comments ({{ video.comments.count }})</a>
+    </div>
+    <small class="text-muted">{{ video.duration }}
+        mins</small>
+</div>
+

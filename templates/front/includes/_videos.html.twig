@@ -1,0 +1,41 @@
+<div class="row">
+    {% for video in videos %}
+
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div align="center" class="embed-responsive embed-responsive-16by9">
+
+                    {% if  video != null %}
+                        <iframe class="" src="{{ video.vimeoId(app.user) }}" frameborder="0" allowfullscreen></iframe>
+                    {% endif %}
+                </div>
+                {% if  video != null %}
+                    <div class="card-body">
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            <h3>{{ video.title }}</h3>
+                        {% else %}
+                            Video for
+                            <b>MEMBERS</b>
+                            only
+
+                            <a href="{{ path('pricing') }}">Sign up</a>
+                            for one month for free.
+                        {% endif %}
+
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            {{ include('front/includes/_likes.html.twig', {'video': video}) }}
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+            </div>
+        </div>
+
+
+    {% endfor %}
+
+    <!-- no members -->
+
+
+</div>

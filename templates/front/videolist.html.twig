@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+{% block customstylesheets %}
+    {{ parent() }}
+    {% if app.user %}
+    {% endif %}
+
+{% endblock %}
+{% block body %}
+
+    {# {% set sample_videos =  [289729765,238902809,150870038,219727723,289879647,261379936,289029793,60594348,290253648]  %} #}
+
+    <main role="main">
+
+        <section class="jumbotron text-center">
+            <div class="container">
+
+                <h1 class="jumbotron-heading">Category -
+                    {{ subcategories.currentCategoryName }}</h1>
+                <div class="btn-group">
+                    <div class="dropdown ml-2">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Subcategories
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <ul class="mr-5">
+                                <li>
+                                    <a href="{{ path('video_list', {categoryname: subcategories.getMainParentName, id: subcategories.mainParentId }) }}">{{ subcategories.getMainParentName }}</a>
+                                </li>
+                                {{ subcategories.categorylist | raw }}
+                            </ul>
+                        </div>
+
+
+                    </div>
+                    <div class="form-row align-items-center ml-3">
+                        {{ include('front/includes/_sort.html.twig', {categoryname: subcategories.getMainParentName, id: subcategories.mainParentId}) }}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="album py-5 bg-light">
+            <div class="container">
+
+                {% if videos|length == 0 %}
+                    <div class="alert alert-warning">
+                        No videos found in this category.
+                    </div>
+                {% endif %}
+                {{ include('front/includes/_videos.html.twig', {'videos': videos}) }}
+
+            </div>
+        </div>
+        <!-- pagination -->
+        {% if pagesCount > 1 %}
+            <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" {% if page > 1 %} href="{{ path('video_list', {id:app.request.attributes.get('id'), categoryname: app.request.attributes.get('categoryname'), page:page - 1 , sort: app.request.query.get('sort') ? app.request.query.get('sort') : 'asc'}) }}" {% else %} href="#" {% endif %}>
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous
+							</span>
+                        </a>
+                    </li>
+                    {% for item in range %}
+
+                        <li class="page-item {% if page == item %}active{% endif %}">
+                            <a class="page-link"
+                               href="{{ path('video_list', {id:app.request.attributes.get('id'), categoryname: app.request.attributes.get('categoryname'), page:item , sort: app.request.query.get('sort') ? app.request.query.get('sort') : 'asc'}) }}">{{ item }}</a>
+                        </li>
+
+
+                    {% endfor %}
+                    <li class="page-item">
+                        <a class="page-link" {% if pagesCount > page %} href="{{ path('video_list', {id:app.request.attributes.get('id'), categoryname: app.request.attributes.get('categoryname'), page:page + 1, sort: app.request.query.get('sort') ? app.request.query.get('sort') : 'asc' }) }}" {% else %} href="#" {% endif %}>
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+
+
+                    {# <li class="page-item active">
+																																																																																																																																																																																																																																																																					<a class="page-link" href="niltek">2</a>
+																																																																																																																																																																																																																																																																				</li>
+																																																																																																																																																																																																																																																																				<li class="page-item">
+																																																																																																																																																																																																																																																																					<a class="page-link" href="{{ 'twig.symfony.com' | external_link }} ">3</a>
+																																																																																																																																																																																																																																																																				</li> #}
+
+                </ul>
+            </nav>
+        {% endif %}
+
+
+    </main>
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+    </script>
+
+    <script src="{{ asset('./build/js/like.js') }}"></script>
+
+
+{% endblock %}
+
+
